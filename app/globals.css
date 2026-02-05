@@ -5,6 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-risk-safe: #22c55e;
+  --color-risk-moderate: #eab308;
+  --color-risk-high: #ef4444;
+  --color-radar-primary: #3b82f6;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
