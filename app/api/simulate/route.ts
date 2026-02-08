@@ -1,9 +1,17 @@
 import { NextResponse } from "next/server";
 import { runStressTest } from "@/lib/simulation/stress-test";
 import { STRESS_SCENARIOS } from "@/lib/simulation/scenarios";
+import { rateLimit, getClientIdentifier } from "@/lib/rate-limit";
 import type { SimulateInput } from "@/lib/simulation/stress-test";
 
 export async function POST(request: Request) {
+  const limit = rateLimit(`simulate:${getClientIdentifier(request)}`);
+  if (!limit.ok) {
+    return NextResponse.json(
+      { error: "Too many requests", retryAfter: limit.retryAfter },
+      { status: 429, headers: { "Retry-After": String(limit.retryAfter ?? 60) } }
+    );
+  }
   try {
     const body = (await request.json()) as {
       input: SimulateInput;

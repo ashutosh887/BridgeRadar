@@ -17,7 +17,10 @@ import { CHAINS, NATIVE_TOKEN, DEMO_PRESETS } from "@/config";
 const schema = z.object({
   fromChainId: z.number(),
   toChainId: z.number(),
-  fromAmount: z.string().min(1),
+  fromAmount: z
+    .string()
+    .min(1, "Enter amount")
+    .refine((v) => !Number.isNaN(parseFloat(v)) && parseFloat(v) > 0, "Enter a valid amount"),
   slippageTolerance: z.number().min(0.1).max(50).optional(),
 });
 
@@ -148,7 +151,10 @@ export function TransactionInput({
 }
 
 export function getRouteParams(values: TransactionInputValues, fromAddress?: string) {
-  const amountWei = BigInt(Math.floor(parseFloat(values.fromAmount) * 1e18)).toString();
+  const parsed = parseFloat(values.fromAmount);
+  const amount =
+    Number.isFinite(parsed) && parsed > 0 ? Math.floor(parsed * 1e18) : Math.floor(2 * 1e18);
+  const amountWei = BigInt(amount).toString();
   return {
     fromChainId: values.fromChainId,
     toChainId: values.toChainId,
