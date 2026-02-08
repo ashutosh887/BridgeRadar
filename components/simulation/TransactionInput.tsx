@@ -18,6 +18,7 @@ const schema = z.object({
   fromChainId: z.number(),
   toChainId: z.number(),
   fromAmount: z.string().min(1),
+  slippageTolerance: z.number().min(0.1).max(50).optional(),
 });
 
 export type TransactionInputValues = z.infer<typeof schema>;
@@ -39,6 +40,7 @@ export function TransactionInput({
       fromChainId: 42161,
       toChainId: 10,
       fromAmount: "2",
+      slippageTolerance: 1,
       ...defaultValues,
     },
   });
@@ -55,13 +57,16 @@ export function TransactionInput({
             value={String(form.watch("fromChainId"))}
             onValueChange={(v) => form.setValue("fromChainId", Number(v))}
           >
-            <SelectTrigger className="w-full h-9">
+            <SelectTrigger className="w-full h-10 border-white/10 bg-zinc-900 text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {CHAINS.map((c) => (
                 <SelectItem key={c.id} value={String(c.id)}>
-                  {c.name}
+                  <div className="flex items-center gap-2">
+                    {c.logo && <img src={c.logo} alt="" className="size-4 rounded-full" />}
+                    {c.name}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -73,13 +78,16 @@ export function TransactionInput({
             value={String(form.watch("toChainId"))}
             onValueChange={(v) => form.setValue("toChainId", Number(v))}
           >
-            <SelectTrigger className="w-full h-9">
+            <SelectTrigger className="w-full h-10 border-white/10 bg-zinc-900 text-white">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {CHAINS.map((c) => (
                 <SelectItem key={c.id} value={String(c.id)}>
-                  {c.name}
+                  <div className="flex items-center gap-2">
+                    {c.logo && <img src={c.logo} alt="" className="size-4 rounded-full" />}
+                    {c.name}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -111,6 +119,23 @@ export function TransactionInput({
           </div>
         </div>
       </div>
+      <div>
+        <label className="text-xs text-zinc-400 mb-1 block">Slippage</label>
+        <div className="flex gap-1">
+          {[0.5, 1, 2, 3].map((p) => (
+            <Button
+              key={p}
+              type="button"
+              variant="outline"
+              size="sm"
+              className={`h-8 text-xs flex-1 ${form.watch("slippageTolerance") === p ? "border-emerald-500 bg-emerald-500/20 text-emerald-400" : "border-white/20 text-zinc-300 hover:bg-white/10"}`}
+              onClick={() => form.setValue("slippageTolerance", p)}
+            >
+              {p}%
+            </Button>
+          ))}
+        </div>
+      </div>
       <Button
         type="submit"
         disabled={isLoading}
@@ -131,5 +156,6 @@ export function getRouteParams(values: TransactionInputValues, fromAddress?: str
     fromTokenAddress: NATIVE_TOKEN,
     toTokenAddress: NATIVE_TOKEN,
     fromAddress,
+    slippageTolerance: values.slippageTolerance ?? 1,
   };
 }

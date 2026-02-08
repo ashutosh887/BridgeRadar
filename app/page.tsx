@@ -18,6 +18,9 @@ export default function Page() {
           <p className="text-lg text-zinc-400">
             Your $5,000. Your risk. Your call. Know what could go wrong before you bridge.
           </p>
+          <p className="text-sm text-zinc-500 max-w-md mx-auto">
+            Others optimize for price. We optimize for NOT getting rekt. See risk scores, stress tests, and pre-flight checks before you bridge.
+          </p>
         </div>
 
         <Link
@@ -27,12 +30,22 @@ export default function Page() {
           Simulate your bridge
         </Link>
 
-        <div className="flex items-center gap-8 pt-6 text-sm text-zinc-500">
-          <span>LI.FI</span>
-          <span>•</span>
-          <span>ENS</span>
-          <span>•</span>
-          <span>Yellow</span>
+        <div className="flex flex-col items-center gap-6 pt-8">
+          <div className="flex items-center gap-8 text-sm text-zinc-500">
+            <span>LI.FI</span>
+            <span>•</span>
+            <span>ENS</span>
+            <span>•</span>
+            <span>Yellow</span>
+          </div>
+          <Link
+            href="https://li.fi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-zinc-500 hover:text-emerald-400 transition"
+          >
+            Execute via LI.FI →
+          </Link>
         </div>
       </main>
     </div>

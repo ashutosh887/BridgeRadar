@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { Share2 } from "lucide-react";
 import { useAccount } from "wagmi";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -88,6 +89,7 @@ export default function SimulatePage() {
         fromChainId: Number(searchParams.get("from") ?? DEMO_PRESETS.default.fromChainId),
         toChainId: Number(searchParams.get("to") ?? DEMO_PRESETS.default.toChainId),
         fromAmount: searchParams.get("amount") ?? DEMO_PRESETS.default.fromAmount,
+        slippageTolerance: 1 as const,
       }
     : undefined;
 
@@ -97,6 +99,16 @@ export default function SimulatePage() {
       setParams(p);
     }
   }, [searchParams, params, address]);
+
+  const shareUrl = params
+    ? `${typeof window !== "undefined" ? window.location.origin : ""}/simulate?demo=1&from=${params.fromChainId}&to=${params.toChainId}&amount=${params.fromAmount ? (Number(params.fromAmount) / 1e18).toFixed(2) : "2"}`
+    : "";
+
+  const handleShare = useCallback(() => {
+    if (!shareUrl) return;
+    navigator.clipboard.writeText(shareUrl);
+    alert("Link copied! Share this analysis.");
+  }, [shareUrl]);
 
   const handleSimulate = useCallback(
     async (scenarioId: string) => {
@@ -194,6 +206,26 @@ export default function SimulatePage() {
 
             {selectedRoute && riskScores[selectedRoute.id] && (
               <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <a
+                    href="https://li.fi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-zinc-500 hover:text-emerald-400 transition"
+                  >
+                    Execute via LI.FI →
+                  </a>
+                  {shareUrl && (
+                    <button
+                      type="button"
+                      onClick={handleShare}
+                      className="flex items-center gap-1 text-xs text-zinc-500 hover:text-emerald-400 transition"
+                    >
+                      <Share2 className="size-3.5" />
+                      Share analysis
+                    </button>
+                  )}
+                </div>
                 <RouteExplanation
                   bridgeNames={[...new Set(selectedRoute.steps.map((s) => s.tool).filter(Boolean))]}
                   riskScore={riskScores[selectedRoute.id]}
