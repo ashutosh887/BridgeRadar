@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -49,18 +48,13 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.2 }}
+    <Card
+      className={cn(
+        "cursor-pointer transition-shadow hover:ring-2 hover:ring-radar-primary/30",
+        isSelected && "ring-2 ring-radar-primary"
+      )}
+      onClick={onClick}
     >
-      <Card
-        className={cn(
-          "cursor-pointer transition-all hover:ring-2 hover:ring-radar-primary/50",
-          isSelected && "ring-2 ring-radar-primary"
-        )}
-        onClick={onClick}
-      >
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
           <div className="flex flex-wrap gap-1">
             {bridgeNames.map((b) => (
@@ -106,7 +100,6 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
             </ul>
           )}
         </CardContent>
-      </Card>
-    </motion.div>
+    </Card>
   );
 }

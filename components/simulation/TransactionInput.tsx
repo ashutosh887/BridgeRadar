@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CHAINS, NATIVE_TOKEN } from "@/lib/chains";
+import { CHAINS, NATIVE_TOKEN, DEMO_PRESETS } from "@/config";
 
 const schema = z.object({
   fromChainId: z.number(),
@@ -27,8 +27,6 @@ interface TransactionInputProps {
   isLoading?: boolean;
   defaultValues?: Partial<TransactionInputValues>;
 }
-
-const AMOUNT_PRESETS = ["0.1", "1", "2", "10"];
 
 export function TransactionInput({
   onSubmit,
@@ -98,7 +96,7 @@ export function TransactionInput({
             {...form.register("fromAmount")}
           />
           <div className="flex gap-1">
-            {AMOUNT_PRESETS.map((a) => (
+            {DEMO_PRESETS.amount.map((a) => (
               <Button
                 key={a}
                 type="button"
