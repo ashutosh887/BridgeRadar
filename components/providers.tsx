@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { wagmiAdapter, projectId, appName, appDescription } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createAppKit } from "@reown/appkit/react";
 import { mainnet, polygon, optimism, arbitrum, base } from "@reown/appkit/networks";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
+import { useAppKitAccount } from "@reown/appkit/react";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,20 @@ function ModalCloseOnMount() {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+  return null;
+}
+
+function ModalCloseOnConnect() {
+  const [prevConnected, setPrevConnected] = useState(false);
+  const { isConnected } = useAppKitAccount();
+
+  useEffect(() => {
+    if (isConnected && !prevConnected) {
+      appkit?.close?.();
+    }
+    setPrevConnected(isConnected);
+  }, [isConnected, prevConnected]);
+
   return null;
 }
 
@@ -63,6 +78,7 @@ export function Providers({
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
       <UrlCleanup />
       <ModalCloseOnMount />
+      <ModalCloseOnConnect />
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );

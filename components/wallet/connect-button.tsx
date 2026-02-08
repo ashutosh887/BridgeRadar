@@ -18,14 +18,10 @@ export function WalletConnectButton() {
   if (isConnected && address) {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <Button
-            variant="outline"
-            size="sm"
-            className="border-white/20 bg-white/5 text-white hover:bg-white/10"
-          >
-            {address.slice(0, 6)}...{address.slice(-4)}
-          </Button>
+        <DropdownMenuTrigger
+          className="inline-flex h-8 items-center justify-center rounded-md border border-white/20 bg-white/5 px-2.5 text-sm text-white hover:bg-white/10"
+        >
+          {address.slice(0, 6)}...{address.slice(-4)}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="bg-zinc-900 border-white/10">
           <DropdownMenuItem onClick={() => disconnect()} className="text-red-400 focus:text-red-400">
