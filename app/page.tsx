@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { WalletConnectButton } from "@/components/wallet/connect-button";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { appName, DEMO_PRESETS } from "@/config";
+
+const btnPrimary =
+  "inline-flex h-8 items-center justify-center gap-1 rounded-md border border-transparent bg-primary px-2.5 text-base font-medium text-primary-foreground hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-ring/30";
+const btnOutline =
+  "inline-flex h-8 items-center justify-center gap-1 rounded-md border border-border bg-transparent px-2.5 text-base font-medium hover:bg-muted hover:text-foreground";
 
 export default function Page() {
   return (
@@ -23,16 +26,10 @@ export default function Page() {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            href="/simulate?demo=1"
-            className={cn(buttonVariants({ size: "lg" }), "text-base")}
-          >
+          <Link href="/simulate?demo=1" className={btnPrimary}>
             Simulate your bridge
           </Link>
-          <Link
-            href={DEMO_PRESETS.url.arbitrumToOptimism}
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "text-base")}
-          >
+          <Link href={DEMO_PRESETS.url.arbitrumToOptimism} className={btnOutline}>
             Demo: 2 ETH Arbitrum → Optimism
           </Link>
         </div>
