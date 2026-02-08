@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 const metadata = {
   name: appName,
   description: appDescription,
-  url: typeof window !== "undefined" ? window.location.origin : "https://bridgeradar.vercel.app",
+  url: process.env.NEXT_PUBLIC_APP_URL || (typeof window !== "undefined" ? window.location.origin : "https://bridgeradar.vercel.app"),
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
 };
 
