@@ -5,6 +5,7 @@ export interface BridgeSecurity {
   exploits: number;
   tvlUsd: number;
   ageMonths: number;
+  multisigUpgradeable?: string;
 }
 
 export const BRIDGE_SECURITY: Record<string, BridgeSecurity> = {
@@ -15,6 +16,7 @@ export const BRIDGE_SECURITY: Record<string, BridgeSecurity> = {
     exploits: 0,
     tvlUsd: 500_000_000,
     ageMonths: 36,
+    multisigUpgradeable: "2/5 multisig upgradeable",
   },
   across: {
     key: "across",

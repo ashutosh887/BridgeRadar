@@ -23,6 +23,9 @@ export function calculateRiskScore(input: RiskInput): RiskScore {
       securityScore -= 30;
       warnings.push(`This bridge had ${b.exploits} exploit(s) in 2024`);
     }
+    if (b.multisigUpgradeable) {
+      warnings.push(b.multisigUpgradeable);
+    }
     if (b.audits === 0) {
       securityScore -= 20;
       warnings.push("Bridge has no public audits");
