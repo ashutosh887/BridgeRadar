@@ -46,11 +46,11 @@ export function TransactionInput({
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="flex flex-col gap-3"
+      className="flex flex-col gap-4 rounded-xl border border-white/10 bg-zinc-900/50 p-4"
     >
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="text-xs text-muted-foreground mb-1 block">From</label>
+          <label className="text-xs text-zinc-400 mb-1 block">From</label>
           <Select
             value={String(form.watch("fromChainId"))}
             onValueChange={(v) => form.setValue("fromChainId", Number(v))}
@@ -68,7 +68,7 @@ export function TransactionInput({
           </Select>
         </div>
         <div>
-          <label className="text-xs text-muted-foreground mb-1 block">To</label>
+          <label className="text-xs text-zinc-400 mb-1 block">To</label>
           <Select
             value={String(form.watch("toChainId"))}
             onValueChange={(v) => form.setValue("toChainId", Number(v))}
@@ -87,12 +87,12 @@ export function TransactionInput({
         </div>
       </div>
       <div>
-        <label className="text-xs text-muted-foreground mb-1 block">Amount</label>
+        <label className="text-xs text-zinc-400 mb-1 block">Amount</label>
         <div className="flex gap-2">
           <Input
             type="text"
             placeholder="0.0"
-            className="h-9"
+            className="h-10 border-white/10 bg-zinc-900 text-white"
             {...form.register("fromAmount")}
           />
           <div className="flex gap-1">
@@ -102,7 +102,7 @@ export function TransactionInput({
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-9 text-xs"
+                className="h-10 text-xs border-white/20 text-zinc-300 hover:bg-white/10"
                 onClick={() => form.setValue("fromAmount", a)}
               >
                 {a}
@@ -111,7 +111,11 @@ export function TransactionInput({
           </div>
         </div>
       </div>
-      <Button type="submit" disabled={isLoading} className="w-full">
+      <Button
+        type="submit"
+        disabled={isLoading}
+        className="w-full h-10 bg-emerald-500 text-white hover:bg-emerald-400"
+      >
         {isLoading ? "Analyzing..." : "Simulate Risk"}
       </Button>
     </form>

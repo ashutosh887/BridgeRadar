@@ -61,11 +61,11 @@ function getItems(riskScore: RiskScore | null, hasRoutes: boolean, hasRiskData: 
 const StatusIcon = ({ status }: { status: "pass" | "warn" | "fail" }) => {
   switch (status) {
     case "pass":
-      return <CheckCircle2 className="size-4 text-risk-safe" />;
+      return <CheckCircle2 className="size-4 text-emerald-500" />;
     case "warn":
-      return <AlertCircle className="size-4 text-risk-moderate" />;
+      return <AlertCircle className="size-4 text-amber-400" />;
     case "fail":
-      return <XCircle className="size-4 text-risk-high" />;
+      return <XCircle className="size-4 text-red-400" />;
   }
 };
 
@@ -85,9 +85,9 @@ export function PreflightChecklist({
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25 }}
-      className="rounded-lg border bg-card p-4"
+      className="rounded-xl border border-white/10 bg-zinc-900/50 p-4"
     >
-      <h3 className="mb-3 text-sm font-medium">Before you bridge</h3>
+      <h3 className="mb-3 text-sm font-medium text-white">Before you bridge</h3>
       <ul className="space-y-2">
         {items.map((item, i) => (
           <motion.li
@@ -97,8 +97,9 @@ export function PreflightChecklist({
             transition={{ delay: 0.05 * i }}
             className={cn(
               "flex items-center gap-2 text-sm",
-              item.status === "fail" && "text-risk-high",
-              item.status === "warn" && "text-risk-moderate"
+              item.status === "pass" && "text-zinc-300",
+              item.status === "fail" && "text-red-400",
+              item.status === "warn" && "text-amber-400"
             )}
           >
             <StatusIcon status={item.status} />

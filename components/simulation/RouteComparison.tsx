@@ -35,14 +35,14 @@ export function RouteComparison({
 }: RouteComparisonProps) {
   if (error) {
     return (
-      <div className="rounded-lg border border-destructive/50 bg-destructive/10 py-8 text-center">
-        <p className="text-sm text-destructive mb-2">
+      <div className="rounded-xl border border-red-500/30 bg-red-500/10 py-8 text-center">
+        <p className="text-sm text-red-400 mb-2">
           {error.message}
         </p>
         {onRetry && (
           <button
             onClick={onRetry}
-            className="text-sm font-medium text-primary hover:underline"
+            className="text-sm font-medium text-emerald-400 hover:underline"
           >
             Retry
           </button>
@@ -57,7 +57,7 @@ export function RouteComparison({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="h-40 animate-pulse rounded-lg bg-muted"
+            className="h-40 animate-pulse rounded-xl bg-zinc-800/50"
           />
         ))}
       </div>
@@ -66,7 +66,7 @@ export function RouteComparison({
 
   if (!routes.length) {
     return (
-      <div className="rounded-lg border border-dashed py-12 text-center text-muted-foreground">
+      <div className="rounded-xl border border-dashed border-white/20 py-12 text-center text-zinc-500">
         Enter amount to see routes
       </div>
     );

@@ -26,17 +26,17 @@ interface RouteCardProps {
 function getGradeColor(grade: string) {
   switch (grade) {
     case "A":
-      return "bg-risk-safe text-white";
+      return "bg-emerald-500 text-white";
     case "B":
-      return "bg-risk-safe/80 text-white";
+      return "bg-emerald-600 text-white";
     case "C":
-      return "bg-risk-moderate text-black";
+      return "bg-amber-500 text-black";
     case "D":
-      return "bg-risk-moderate text-black";
+      return "bg-amber-600 text-black";
     case "F":
-      return "bg-risk-high text-white";
+      return "bg-red-500 text-white";
     default:
-      return "bg-muted";
+      return "bg-zinc-600 text-white";
   }
 }
 
@@ -57,15 +57,15 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
     >
       <Card
         className={cn(
-          "cursor-pointer transition-shadow hover:ring-2 hover:ring-radar-primary/30",
-          isSelected && "ring-2 ring-radar-primary"
+          "cursor-pointer border-white/10 bg-zinc-900/50 transition-shadow hover:ring-2 hover:ring-emerald-500/30",
+          isSelected && "ring-2 ring-emerald-500"
         )}
         onClick={onClick}
       >
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
           <div className="flex flex-wrap gap-1">
             {bridgeNames.map((b) => (
-              <Badge key={b} variant="secondary" className="text-[10px]">
+              <Badge key={b} variant="secondary" className="text-[10px] border-white/20 bg-white/5 text-zinc-300">
                 {b}
               </Badge>
             ))}
@@ -83,29 +83,29 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
             </div>
           )}
           <div className="flex justify-between">
-            <span className="text-muted-foreground">You receive</span>
+            <span className="text-zinc-400">You receive</span>
             <span className="font-mono font-medium">
               ~{parseFloat(route.toAmount).toFixed(4)} ETH
             </span>
           </div>
-          <div className="flex justify-between text-xs text-muted-foreground">
+          <div className="flex justify-between text-xs text-zinc-500">
             <span>Min (slippage)</span>
             <span>~{parseFloat(route.toAmountMin).toFixed(4)} ETH</span>
           </div>
           {route.gasCostUSD && (
-            <div className="flex justify-between text-xs text-muted-foreground">
+            <div className="flex justify-between text-xs text-zinc-500">
               <span>Gas</span>
               <span>${parseFloat(route.gasCostUSD).toFixed(2)}</span>
             </div>
           )}
           {duration > 0 && (
-            <div className="flex justify-between text-xs text-muted-foreground">
+            <div className="flex justify-between text-xs text-zinc-500">
               <span>Est. time</span>
               <span>{Math.ceil(duration / 60)} min</span>
             </div>
           )}
           {riskScore?.warnings && riskScore.warnings.length > 0 && (
-            <ul className="mt-2 space-y-0.5 text-xs text-risk-high">
+            <ul className="mt-2 space-y-0.5 text-xs text-red-400">
               {riskScore.warnings.slice(0, 2).map((w, i) => (
                 <li key={i}>⚠ {w}</li>
               ))}

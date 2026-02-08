@@ -38,10 +38,10 @@ export function StressTestPanel({
       animate={{ opacity: 1 }}
       transition={{ delay: 0.15 }}
     >
-      <Card>
+      <Card className="border-white/10 bg-zinc-900/50">
         <CardHeader>
-          <h3 className="text-sm font-medium">What if?</h3>
-          <p className="text-xs text-muted-foreground">
+          <h3 className="text-sm font-medium text-white">What if?</h3>
+          <p className="text-xs text-zinc-400">
             Stress test your route under adverse conditions
           </p>
         </CardHeader>
@@ -52,7 +52,7 @@ export function StressTestPanel({
                 key={s.id}
                 variant={selectedId === s.id ? "default" : "outline"}
                 size="sm"
-                className="text-xs"
+                className={`text-xs ${selectedId === s.id ? "bg-emerald-500" : "border-white/20 text-zinc-300 hover:bg-white/10"}`}
                 onClick={() => handleRun(s.id)}
                 disabled={!route || isLoading}
               >
@@ -61,29 +61,29 @@ export function StressTestPanel({
             ))}
           </div>
           {result && (
-            <div className="grid grid-cols-3 gap-2 rounded-md bg-muted/50 p-3 text-center">
+            <div className="grid grid-cols-3 gap-2 rounded-lg bg-zinc-800/50 p-3 text-center">
               <div>
-                <div className="text-[10px] text-muted-foreground">Worst</div>
-                <div className="text-sm font-mono font-medium text-risk-high">
+                <div className="text-[10px] text-zinc-500">Worst</div>
+                <div className="text-sm font-mono font-medium text-red-400">
                   {parseFloat(result.worstCase).toFixed(4)}
                 </div>
               </div>
               <div>
-                <div className="text-[10px] text-muted-foreground">Expected</div>
-                <div className="text-sm font-mono font-medium">
+                <div className="text-[10px] text-zinc-500">Expected</div>
+                <div className="text-sm font-mono font-medium text-zinc-300">
                   {parseFloat(result.expected).toFixed(4)}
                 </div>
               </div>
               <div>
-                <div className="text-[10px] text-muted-foreground">Best</div>
-                <div className="text-sm font-mono font-medium text-risk-safe">
+                <div className="text-[10px] text-zinc-500">Best</div>
+                <div className="text-sm font-mono font-medium text-emerald-400">
                   {parseFloat(result.bestCase).toFixed(4)}
                 </div>
               </div>
             </div>
           )}
           {result && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-zinc-500">
               Gas est: ${result.gasCostUSD} ({result.scenario.label})
             </p>
           )}
