@@ -28,7 +28,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ## Tech Stack
 
 - **Framework:** Next.js 16
-- **Web3:** viem, wagmi, RainbowKit
+- **Web3:** viem, wagmi, Reown AppKit
 - **Data:** LI.FI SDK (routes), Yellow (simulation), ENS (identity)
 - **UI:** Tailwind, shadcn/ui, Framer Motion
 
@@ -49,7 +49,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Copy `.env.example` to `.env.local` and add:
 
-- `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`
+- `NEXT_PUBLIC_PROJECT_ID` (from [Reown Dashboard](https://dashboard.reown.com))
 - RPC URLs for mainnet, Arbitrum, Optimism, etc.
 
 ---
