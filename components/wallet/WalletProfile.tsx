@@ -33,7 +33,7 @@ export function WalletProfile() {
   const history = historyQuery.data;
 
   return (
-    <div className="flex items-center gap-2 rounded-lg border px-3 py-2">
+    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-zinc-900/50 px-3 py-2">
       {data?.avatar && (
         <Image
           src={data.avatar}
@@ -45,8 +45,8 @@ export function WalletProfile() {
         />
       )}
       <div className="flex flex-col">
-        <span className="text-sm font-medium">{displayName}</span>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-sm font-medium text-white">{displayName}</span>
+        <span className="text-xs text-zinc-400">
           {history?.isNew
             ? "New wallet — no history"
             : `${history?.bridges ?? 0} bridges, ${history?.failures ?? 0} failures`}
