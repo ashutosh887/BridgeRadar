@@ -1,40 +1,33 @@
 import Link from "next/link";
 import { WalletConnectButton } from "@/components/wallet/connect-button";
-import { appName, DEMO_PRESETS } from "@/config";
-
-const btnPrimary =
-  "inline-flex h-8 items-center justify-center gap-1 rounded-md border border-transparent bg-primary px-2.5 text-base font-medium text-primary-foreground hover:bg-primary/80 focus-visible:ring-2 focus-visible:ring-ring/30";
-const btnOutline =
-  "inline-flex h-8 items-center justify-center gap-1 rounded-md border border-border bg-transparent px-2.5 text-base font-medium hover:bg-muted hover:text-foreground";
+import { appName } from "@/config";
 
 export default function Page() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between border-b px-6 py-4">
-        <span className="font-semibold">{appName}</span>
+    <div className="flex min-h-screen flex-col bg-[#0a0a0f]">
+      <header className="flex items-center justify-between border-b border-white/5 px-6 py-4">
+        <span className="font-semibold text-white">{appName}</span>
         <WalletConnectButton />
       </header>
 
-      <main className="flex flex-1 flex-col items-center justify-center gap-8 px-6 py-16">
-        <div className="text-center space-y-4 max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
+      <main className="flex flex-1 flex-col items-center justify-center gap-10 px-6 py-20">
+        <div className="text-center space-y-5 max-w-2xl">
+          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-6xl">
             Stop flying blind on cross-chain
           </h1>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-zinc-400">
             Your $5,000. Your risk. Your call. Know what could go wrong before you bridge.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
-          <Link href="/simulate?demo=1" className={btnPrimary}>
-            Simulate your bridge
-          </Link>
-          <Link href={DEMO_PRESETS.url.arbitrumToOptimism} className={btnOutline}>
-            Demo: 2 ETH Arbitrum → Optimism
-          </Link>
-        </div>
+        <Link
+          href="/simulate"
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-emerald-500 px-8 text-base font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-400/50"
+        >
+          Simulate your bridge
+        </Link>
 
-        <div className="flex items-center gap-8 pt-8 text-sm text-muted-foreground">
+        <div className="flex items-center gap-8 pt-6 text-sm text-zinc-500">
           <span>LI.FI</span>
           <span>•</span>
           <span>ENS</span>
