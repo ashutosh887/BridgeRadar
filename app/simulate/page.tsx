@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAccount } from "wagmi";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { TransactionInput, getRouteParams } from "@/components/simulation/TransactionInput";
 import { RouteComparison } from "@/components/simulation/RouteComparison";
 import { StressTestPanel } from "@/components/simulation/StressTestPanel";
@@ -17,7 +18,6 @@ import type { TransactionInputValues } from "@/components/simulation/Transaction
 import type { RiskScore } from "@/lib/risk/types";
 import type { SimulateResult } from "@/lib/simulation/stress-test";
 import { DEMO_PRESETS } from "@/config";
-import Link from "next/link";
 
 export default function SimulatePage() {
   const { address } = useAccount();
@@ -120,11 +120,33 @@ export default function SimulatePage() {
   );
 
 
+  const isDemo = searchParams.get("demo") === "1";
+  const showAuthGate = !address && !isDemo;
+
   return (
-    <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+    <div className="min-h-screen bg-[#0a0a0f]">
+      {showAuthGate && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a0a0f]/95 backdrop-blur-sm">
+          <div className="mx-4 max-w-sm rounded-2xl border border-white/10 bg-zinc-900/90 p-8 text-center shadow-xl">
+            <h2 className="text-lg font-semibold text-white">Connect wallet to simulate</h2>
+            <p className="mt-2 text-sm text-zinc-400">
+              BridgeRadar analyzes your route risk. Connect your wallet to continue.
+            </p>
+            <div className="mt-6 flex flex-col gap-2">
+              <WalletConnectButton />
+              <Link
+                href="/"
+                className="text-sm text-zinc-500 hover:text-zinc-400"
+              >
+                Back to home
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#0a0a0f]/95 backdrop-blur">
         <div className="flex h-14 items-center justify-between px-4 gap-4">
-          <Link href="/" className="font-semibold">
+          <Link href="/" className="font-semibold text-white">
             BridgeRadar
           </Link>
           <div className="flex items-center gap-2">
@@ -134,15 +156,15 @@ export default function SimulatePage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-4xl px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">Simulate your bridge</h1>
-          <p className="text-muted-foreground">
+      <main className="mx-auto max-w-5xl px-4 py-10">
+        <div className="mb-10">
+          <h1 className="text-2xl font-bold text-white">Simulate your bridge</h1>
+          <p className="text-zinc-400">
             Know what could go wrong before you bridge
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
+        <div className="grid gap-8 lg:grid-cols-[340px_1fr]">
           <aside className="space-y-6">
             <TransactionInput
               onSubmit={handleFormSubmit}
@@ -176,6 +198,7 @@ export default function SimulatePage() {
                   bridgeNames={[...new Set(selectedRoute.steps.map((s) => s.tool).filter(Boolean))]}
                   riskScore={riskScores[selectedRoute.id]}
                   toAmount={selectedRoute.toAmount}
+                  fromAmount={selectedRoute.fromAmount}
                 />
               </div>
             )}
