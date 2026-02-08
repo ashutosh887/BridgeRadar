@@ -17,8 +17,8 @@ BridgeRadar simulates your cross-chain transaction across all available routes *
 ## Quick Start
 
 ```bash
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -49,11 +49,24 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Copy `.env.example` to `.env.local` and add:
 
-- `NEXT_PUBLIC_PROJECT_ID` (from [Reown Dashboard](https://dashboard.reown.com))
-- RPC URLs for mainnet, Arbitrum, Optimism, etc.
+- `NEXT_PUBLIC_PROJECT_ID` (from [Reown Dashboard](https://dashboard.reown.com)). Use your own project ID to avoid shared-demo config that may auto-open the modal.
+- `OPENAI_API_KEY` (optional, for AI route explanation)
+- `LIFI_API_KEY` (optional, for higher rate limits)
+- RPC URLs (optional, public RPCs used as fallback)
+
+## Deploy
+
+```bash
+npm run build
+npm run start
+```
+
+Or deploy to Vercel: connect repo, add env vars, deploy. No build config needed.
 
 ---
 
-## Tasks
+## API Security
 
-See [TODO.md](./TODO.md) for the full task breakdown and hackathon build plan.
+- `/api/ens` and `/api/wallet-history` require valid Ethereum addresses. Rate limited (30 req/min per IP).
+- `/api/routes` validated for chain IDs and amount. Rate limited.
+- No PII logged or stored. ENS resolution uses public blockchain data only.
