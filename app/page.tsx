@@ -2,7 +2,7 @@ import Link from "next/link";
 import { WalletConnectButton } from "@/components/wallet/connect-button";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { appName } from "@/config";
+import { appName, DEMO_PRESETS } from "@/config";
 
 export default function Page() {
   return (
@@ -30,7 +30,7 @@ export default function Page() {
             Simulate your bridge
           </Link>
           <Link
-            href="/simulate?demo=1&amount=2&from=42161&to=10"
+            href={DEMO_PRESETS.url.arbitrumToOptimism}
             className={cn(buttonVariants({ variant: "outline", size: "lg" }), "text-base")}
           >
             Demo: 2 ETH Arbitrum → Optimism

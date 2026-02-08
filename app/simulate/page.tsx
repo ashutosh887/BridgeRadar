@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { TransactionInput, getRouteParams } from "@/components/simulation/TransactionInput";
 import { RouteComparison } from "@/components/simulation/RouteComparison";
 import { StressTestPanel } from "@/components/simulation/StressTestPanel";
+import { RouteExplanation } from "@/components/simulation/RouteExplanation";
 import { PreflightChecklist } from "@/components/simulation/PreflightChecklist";
 import { WalletConnectButton } from "@/components/wallet/connect-button";
 import { WalletProfile } from "@/components/wallet/WalletProfile";
@@ -15,6 +16,7 @@ import { useSimulation } from "@/hooks/useSimulation";
 import type { TransactionInputValues } from "@/components/simulation/TransactionInput";
 import type { RiskScore } from "@/lib/risk/types";
 import type { SimulateResult } from "@/lib/simulation/stress-test";
+import { DEMO_PRESETS } from "@/config";
 import Link from "next/link";
 
 export default function SimulatePage() {
@@ -83,9 +85,9 @@ export default function SimulatePage() {
 
   const demoValues = searchParams.get("demo")
     ? {
-        fromChainId: Number(searchParams.get("from") ?? 42161),
-        toChainId: Number(searchParams.get("to") ?? 10),
-        fromAmount: searchParams.get("amount") ?? "2",
+        fromChainId: Number(searchParams.get("from") ?? DEMO_PRESETS.default.fromChainId),
+        toChainId: Number(searchParams.get("to") ?? DEMO_PRESETS.default.toChainId),
+        fromAmount: searchParams.get("amount") ?? DEMO_PRESETS.default.fromAmount,
       }
     : undefined;
 
@@ -145,7 +147,7 @@ export default function SimulatePage() {
             <TransactionInput
               onSubmit={handleFormSubmit}
               isLoading={routesQuery.isFetching}
-              defaultValues={demoValues ?? { fromChainId: 42161, toChainId: 10, fromAmount: "2" }}
+              defaultValues={demoValues ?? DEMO_PRESETS.default}
             />
             <PreflightChecklist
               riskScore={selectedRoute ? riskScores[selectedRoute.id] : null}
@@ -168,6 +170,15 @@ export default function SimulatePage() {
               />
             </section>
 
+            {selectedRoute && riskScores[selectedRoute.id] && (
+              <div className="space-y-2">
+                <RouteExplanation
+                  bridgeNames={[...new Set(selectedRoute.steps.map((s) => s.tool).filter(Boolean))]}
+                  riskScore={riskScores[selectedRoute.id]}
+                  toAmount={selectedRoute.toAmount}
+                />
+              </div>
+            )}
             {selectedRoute && (
               <StressTestPanel
                 route={selectedRoute}
