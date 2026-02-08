@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { wagmiAdapter, projectId, appName, appDescription } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createAppKit } from "@reown/appkit/react-core";
+import { createAppKit } from "@reown/appkit/react";
 import { mainnet, polygon, optimism, arbitrum, base } from "@reown/appkit/networks";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 
@@ -22,6 +22,16 @@ function UrlCleanup() {
   return null;
 }
 
+function ModalCloseOnMount() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      appkit?.close?.();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+  return null;
+}
+
 const metadata = {
   name: appName,
   description: appDescription,
@@ -29,13 +39,13 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/179229932"],
 };
 
-createAppKit({
+const appkit = createAppKit({
   adapters: [wagmiAdapter],
   projectId,
   networks: [mainnet, polygon, optimism, arbitrum, base],
   defaultNetwork: mainnet,
   metadata,
-  features: { analytics: false },
+  features: { analytics: false, email: false, socials: false },
   enableReconnect: false,
   enableWalletGuide: false,
 });
@@ -52,6 +62,7 @@ export function Providers({
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
       <UrlCleanup />
+      <ModalCloseOnMount />
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );

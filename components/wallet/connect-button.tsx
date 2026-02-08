@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react-core";
+import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
 import { useDisconnect } from "wagmi";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,7 @@ export function WalletConnectButton() {
   if (isConnected && address) {
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger>
           <Button
             variant="outline"
             size="sm"
