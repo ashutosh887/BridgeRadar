@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { CheckCircle2, AlertCircle, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { RiskScore } from "@/lib/risk/types";
@@ -81,20 +80,12 @@ export function PreflightChecklist({
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
-      className="rounded-lg border bg-card p-4"
-    >
+    <div className="rounded-lg border bg-card p-4">
       <h3 className="mb-3 text-sm font-medium">Before you bridge</h3>
       <ul className="space-y-2">
-        {items.map((item, i) => (
-          <motion.li
+        {items.map((item) => (
+          <li
             key={item.id}
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.1 * i }}
             className={cn(
               "flex items-center gap-2 text-sm",
               item.status === "fail" && "text-risk-high",
@@ -103,9 +94,9 @@ export function PreflightChecklist({
           >
             <StatusIcon status={item.status} />
             <span>{item.label}</span>
-          </motion.li>
+          </li>
         ))}
       </ul>
-    </motion.div>
+    </div>
   );
 }
