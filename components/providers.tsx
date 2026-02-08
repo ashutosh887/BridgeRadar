@@ -21,8 +21,9 @@ createAppKit({
   networks: [mainnet, polygon, optimism, arbitrum, base],
   defaultNetwork: mainnet,
   metadata,
-  features: { analytics: true },
+  features: { analytics: false },
   enableReconnect: false,
+  enableWalletGuide: false,
 });
 
 export function Providers({
