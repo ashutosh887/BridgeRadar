@@ -1,12 +1,26 @@
 "use client";
 
+import { useEffect } from "react";
 import { wagmiAdapter, projectId, appName, appDescription } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createAppKit } from "@reown/appkit/react";
+import { createAppKit } from "@reown/appkit/react-core";
 import { mainnet, polygon, optimism, arbitrum, base } from "@reown/appkit/networks";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 
 const queryClient = new QueryClient();
+
+function UrlCleanup() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    const had = url.searchParams.has("result_uri") || url.searchParams.has("wc") || url.searchParams.has("connectUri");
+    url.searchParams.delete("result_uri");
+    url.searchParams.delete("wc");
+    url.searchParams.delete("connectUri");
+    if (had) window.history.replaceState({}, document.title, url.toString());
+  }, []);
+  return null;
+}
 
 const metadata = {
   name: appName,
@@ -37,6 +51,7 @@ export function Providers({
 
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
+      <UrlCleanup />
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
