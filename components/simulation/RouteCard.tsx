@@ -1,6 +1,8 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { RadarChart } from "@/components/radar/RadarChart";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import type { RiskScore } from "@/lib/risk/types";
@@ -48,13 +50,18 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
   );
 
   return (
-    <Card
-      className={cn(
-        "cursor-pointer transition-shadow hover:ring-2 hover:ring-radar-primary/30",
-        isSelected && "ring-2 ring-radar-primary"
-      )}
-      onClick={onClick}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2 }}
     >
+      <Card
+        className={cn(
+          "cursor-pointer transition-shadow hover:ring-2 hover:ring-radar-primary/30",
+          isSelected && "ring-2 ring-radar-primary"
+        )}
+        onClick={onClick}
+      >
         <CardHeader className="flex flex-row items-center justify-between gap-2 pb-2">
           <div className="flex flex-wrap gap-1">
             {bridgeNames.map((b) => (
@@ -69,7 +76,12 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
             </Badge>
           )}
         </CardHeader>
-        <CardContent className="space-y-1 text-sm">
+        <CardContent className="space-y-2 text-sm">
+          {riskScore && isSelected && (
+            <div className="h-24 -mx-1">
+              <RadarChart riskScore={riskScore} height={96} />
+            </div>
+          )}
           <div className="flex justify-between">
             <span className="text-muted-foreground">You receive</span>
             <span className="font-mono font-medium">
@@ -100,6 +112,7 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
             </ul>
           )}
         </CardContent>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }

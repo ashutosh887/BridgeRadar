@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { STRESS_SCENARIOS } from "@/lib/simulation/scenarios";
@@ -32,7 +33,12 @@ export function StressTestPanel({
   };
 
   return (
-    <Card>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.15 }}
+    >
+      <Card>
         <CardHeader>
           <h3 className="text-sm font-medium">What if?</h3>
           <p className="text-xs text-muted-foreground">
@@ -82,6 +88,7 @@ export function StressTestPanel({
             </p>
           )}
         </CardContent>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
