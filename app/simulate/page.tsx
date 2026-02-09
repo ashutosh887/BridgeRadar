@@ -170,8 +170,7 @@ export default function SimulatePage() {
             BridgeRadar
           </Link>
           <div className="flex items-center gap-2">
-            <WalletProfile />
-            <WalletConnectButton />
+            {address ? <WalletProfile /> : <WalletConnectButton />}
           </div>
         </div>
       </header>
