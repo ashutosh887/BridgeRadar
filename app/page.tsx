@@ -23,12 +23,20 @@ export default function Page() {
           </p>
         </div>
 
-        <Link
-          href="/simulate"
-          className="inline-flex h-12 items-center justify-center rounded-xl bg-emerald-500 px-8 text-base font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-400/50"
-        >
-          Simulate your bridge
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link
+            href="/simulate"
+            className="inline-flex h-12 items-center justify-center rounded-xl bg-emerald-500 px-8 text-base font-semibold text-white shadow-lg shadow-emerald-500/25 transition hover:bg-emerald-400 focus-visible:ring-2 focus-visible:ring-emerald-400/50"
+          >
+            Simulate your bridge
+          </Link>
+          <Link
+            href="/simulate?demo=1"
+            className="inline-flex h-12 items-center justify-center rounded-xl border border-white/20 px-8 text-base font-medium text-zinc-300 transition hover:bg-white/5 hover:border-white/30"
+          >
+            Try demo (no wallet)
+          </Link>
+        </div>
 
         <div className="flex flex-col items-center gap-6 pt-8">
           <div className="flex items-center gap-8 text-sm text-zinc-500">

@@ -25,6 +25,7 @@ export default function SimulatePage() {
   const searchParams = useSearchParams();
   const [params, setParams] = useState<ReturnType<typeof getRouteParams> | null>(null);
   const [selectedRouteId, setSelectedRouteId] = useState<string | null>(null);
+  const [shareCopied, setShareCopied] = useState(false);
 
   const routesQuery = useRoutes(params);
   const routes = routesQuery.data?.routes ?? [];
@@ -85,12 +86,18 @@ export default function SimulatePage() {
   };
 
   const demoValues = searchParams.get("demo")
-    ? {
-        fromChainId: Number(searchParams.get("from") ?? DEMO_PRESETS.default.fromChainId),
-        toChainId: Number(searchParams.get("to") ?? DEMO_PRESETS.default.toChainId),
-        fromAmount: searchParams.get("amount") ?? DEMO_PRESETS.default.fromAmount,
-        slippageTolerance: 1 as const,
-      }
+    ? (() => {
+        const fromId = Number(searchParams.get("from"));
+        const toId = Number(searchParams.get("to"));
+        const amount = searchParams.get("amount");
+        const parsedAmount = typeof amount === "string" ? parseFloat(amount) : NaN;
+        return {
+          fromChainId: Number.isFinite(fromId) && fromId > 0 ? fromId : DEMO_PRESETS.default.fromChainId,
+          toChainId: Number.isFinite(toId) && toId > 0 ? toId : DEMO_PRESETS.default.toChainId,
+          fromAmount: Number.isFinite(parsedAmount) && parsedAmount > 0 ? (amount ?? DEMO_PRESETS.default.fromAmount) : DEMO_PRESETS.default.fromAmount,
+          slippageTolerance: 1 as const,
+        };
+      })()
     : undefined;
 
   useEffect(() => {
@@ -107,7 +114,8 @@ export default function SimulatePage() {
   const handleShare = useCallback(() => {
     if (!shareUrl) return;
     navigator.clipboard.writeText(shareUrl);
-    alert("Link copied! Share this analysis.");
+    setShareCopied(true);
+    setTimeout(() => setShareCopied(false), 2000);
   }, [shareUrl]);
 
   const handleSimulate = useCallback(
@@ -201,6 +209,7 @@ export default function SimulatePage() {
                 isLoading={routesQuery.isFetching}
                 error={routesQuery.error as Error | undefined}
                 onRetry={() => routesQuery.refetch()}
+                hasSearched={!!params}
               />
             </section>
 
@@ -219,10 +228,10 @@ export default function SimulatePage() {
                     <button
                       type="button"
                       onClick={handleShare}
-                      className="flex items-center gap-1 text-xs text-zinc-500 hover:text-emerald-400 transition"
+                      className="flex items-center gap-1 text-xs text-zinc-500 hover:text-emerald-400 transition disabled:opacity-70"
                     >
                       <Share2 className="size-3.5" />
-                      Share analysis
+                      {shareCopied ? "Copied!" : "Share analysis"}
                     </button>
                   )}
                 </div>

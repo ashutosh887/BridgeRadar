@@ -22,6 +22,7 @@ interface RouteComparisonProps {
   isLoading?: boolean;
   error?: Error | null;
   onRetry?: () => void;
+  hasSearched?: boolean;
 }
 
 export function RouteComparison({
@@ -32,6 +33,7 @@ export function RouteComparison({
   isLoading,
   error,
   onRetry,
+  hasSearched = false,
 }: RouteComparisonProps) {
   if (error) {
     return (
@@ -67,7 +69,7 @@ export function RouteComparison({
   if (!routes.length) {
     return (
       <div className="rounded-xl border border-dashed border-white/20 py-12 text-center text-zinc-500">
-        Enter amount to see routes
+        {hasSearched ? "No routes found for this path" : "Enter amount to see routes"}
       </div>
     );
   }
