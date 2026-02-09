@@ -78,8 +78,8 @@ export function RouteCard({ route, riskScore, isSelected, onClick }: RouteCardPr
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
           {riskScore && isSelected && (
-            <div className="h-24 -mx-1">
-              <RadarChart riskScore={riskScore} height={96} />
+            <div className="py-2 -mx-1 mb-2">
+              <RadarChart riskScore={riskScore} height={200} />
             </div>
           )}
           <div className="flex justify-between">
