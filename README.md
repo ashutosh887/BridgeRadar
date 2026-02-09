@@ -29,7 +29,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - **Framework:** Next.js 16
 - **Web3:** viem, wagmi, Reown AppKit
-- **Data:** LI.FI SDK (routes), Yellow (simulation), ENS (identity)
+- **Data:** LI.FI SDK (routes), ENS (identity), custom risk & stress simulation
 - **UI:** Tailwind, shadcn/ui, Framer Motion
 
 ---
