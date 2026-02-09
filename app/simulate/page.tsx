@@ -13,10 +13,10 @@ import { PreflightChecklist } from "@/components/simulation/PreflightChecklist";
 import { WalletConnectButton } from "@/components/wallet/connect-button";
 import { WalletProfile } from "@/components/wallet/WalletProfile";
 import { useRoutes } from "@/hooks/useRoutes";
-import { useRiskScore } from "@/hooks/useRiskScore";
 import { useSimulation } from "@/hooks/useSimulation";
+import { calculateRiskScore } from "@/lib/risk/calculator";
 import type { TransactionInputValues } from "@/components/simulation/TransactionInput";
-import type { RiskScore } from "@/lib/risk/types";
+import type { RiskScore, RiskInput } from "@/lib/risk/types";
 import type { SimulateResult } from "@/lib/simulation/stress-test";
 import { DEMO_PRESETS } from "@/config";
 
@@ -29,7 +29,6 @@ export default function SimulatePage() {
 
   const routesQuery = useRoutes(params);
   const routes = routesQuery.data?.routes ?? [];
-  const riskScoreMutation = useRiskScore();
   const simulationMutation = useSimulation();
 
   const [riskScores, setRiskScores] = useState<Record<string, RiskScore>>({});
@@ -39,7 +38,7 @@ export default function SimulatePage() {
     ? routes.find((r) => r.id === selectedRouteId)
     : routes[0];
 
-  const computeRiskScores = useCallback(async () => {
+  const computeRiskScores = useCallback(() => {
     const scores: Record<string, RiskScore> = {};
     for (const route of routes) {
       const bridgeNames = [...new Set(route.steps.map((s) => s.tool).filter(Boolean))];
@@ -48,7 +47,7 @@ export default function SimulatePage() {
         0
       );
       try {
-        const score = await riskScoreMutation.mutateAsync({
+        const input: RiskInput = {
           routeId: route.id,
           bridgeNames,
           fromAmountUSD: route.fromAmountUSD,
@@ -56,7 +55,8 @@ export default function SimulatePage() {
           toAmount: route.toAmount,
           gasCostUSD: route.gasCostUSD,
           executionDuration: duration,
-        });
+        };
+        const score = calculateRiskScore(input);
         scores[route.id] = score;
       } catch {
         scores[route.id] = {
@@ -69,13 +69,13 @@ export default function SimulatePage() {
     }
     setRiskScores(scores);
     setSelectedRouteId((prev) => (prev ? prev : routes[0]?.id ?? null));
-  }, [routes, riskScoreMutation]);
+  }, [routes]);
 
   useEffect(() => {
     if (routes.length > 0 && Object.keys(riskScores).length === 0) {
       computeRiskScores();
     }
-  }, [routes, riskScores, computeRiskScores]);
+  }, [routes.length, computeRiskScores]);
 
   const handleFormSubmit = (values: TransactionInputValues) => {
     const p = getRouteParams(values, address);
